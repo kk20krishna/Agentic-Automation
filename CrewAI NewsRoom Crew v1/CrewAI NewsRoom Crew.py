@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 from crewai import Agent, Task, Crew
 from langchain_community.tools import DuckDuckGoSearchResults
 from crewai.tools import BaseTool
@@ -8,9 +9,12 @@ from crewai import LLM
 
 print("$$$$$$$$$$$$$ CrewAI Research Crew $$$$$$$$$$$$$")
 
+# Using Ollama for local inference
 #os.environ["OPENAI_API_KEY"] = "sk-fake-key-for-ollama"
 #llm = "ollama/llama3.2:latest"
 
+# using OpenRouter for inference
+# set OPENROUTER_API_KEY="xxxxxxxxx" in .env file
 load_dotenv()
 llm = LLM(
     #model="openrouter/deepseek/deepseek-r1:free",
@@ -114,5 +118,12 @@ result = crew.kickoff(inputs=inputs)
 print("\n############ Final News Article with India-Focused Editorial Opinion ##############")
 print(result)
 
-with open(f'CrewAI NewsRoom Crew\\Generated_Editorial_Opinions\\editorial_opinion_{inputs["topic"]}.txt', "w") as file:
-    file.write(result)
+# Get the current date and time
+current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# Construct the filename with date & time
+file_path = f'CrewAI NewsRoom Crew\\Generated_Editorial_Opinions\\editorial_opinion_{inputs["topic"]}_{current_time}.txt'
+
+# Write the result to the file
+with open(file_path, "w", encoding="utf-8") as file:
+    file.write(str(result))
