@@ -114,5 +114,5 @@ result = crew.kickoff(inputs=inputs)
 print("\n############ Final News Article with India-Focused Editorial Opinion ##############")
 print(result)
 
-with open(f'editorial_opinion_{inputs["topic"]}.txt', "w") as file:
+with open(f'CrewAI NewsRoom Crew\\Generated_Editorial_Opinions\\editorial_opinion_{inputs["topic"]}.txt', "w") as file:
     file.write(result)
