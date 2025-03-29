@@ -4,9 +4,8 @@ from smolagents import CodeAgent, DuckDuckGoSearchTool, LiteLLMModel
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
 OPENROUTER_API_KEY= os.getenv("OPENROUTER_API_KEY")
-print("OPENROUTER_API_KEY", OPENROUTER_API_KEY)
+#print("OPENROUTER_API_KEY", OPENROUTER_API_KEY)
 
 
 # Initialize the search tool
