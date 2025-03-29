@@ -114,7 +114,7 @@ model = LiteLLMModel(
 agent = CodeAgent(tools=[party_planning_retriever], model=model)
 
 
-
+agent.visualize()
 # Example usage
 response = agent.run(
     "Find ideas for a luxury superhero-themed party, including entertainment, catering, and decoration options."
