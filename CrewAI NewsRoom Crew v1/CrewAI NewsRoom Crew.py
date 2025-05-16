@@ -1,26 +1,23 @@
 # Install required packages:
-# pip install python-dotenv crewai langchain-community pydantic langfuse openlit
+# pip install python-dotenv crewai langchain-community pydantic langtrace-python-sdk -U -q
 
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+
+# Must precede any llm module imports
+from langtrace_python_sdk import langtrace
+langtrace.init(api_key = 'deead3b309930e2343540cfe57693978e217cc87443e5f013ce708ccea4ecc50')
+
 from crewai import Agent, Task, Crew
 from langchain_community.tools import DuckDuckGoSearchResults
 from crewai.tools import BaseTool
 from pydantic import Field
 from crewai import LLM
 import base64
-import openlit
 
 print("$$$$$$$$$$$$$ CrewAI Research Crew $$$$$$$$$$$$$")
 
-LANGFUSE_PUBLIC_KEY = os.getenv("LANGFUSE_PUBLIC_KEY")
-LANGFUSE_SECRET_KEY = os.getenv("LANGFUSE_SECRET_KEY")
-LANGFUSE_AUTH=base64.b64encode(f"{LANGFUSE_PUBLIC_KEY}:{LANGFUSE_SECRET_KEY}".encode()).decode()
-#os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "https://cloud.langfuse.com/api/public/otel" # EU data region
-os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "https://us.cloud.langfuse.com/api/public/otel" # US data region
-os.environ["OTEL_EXPORTER_OTLP_HEADERS"] = f"Authorization=Basic {LANGFUSE_AUTH}"
-openlit.init()
 
 # Using Ollama for local inference
 #os.environ["OPENAI_API_KEY"] = "sk-fake-key-for-ollama"
