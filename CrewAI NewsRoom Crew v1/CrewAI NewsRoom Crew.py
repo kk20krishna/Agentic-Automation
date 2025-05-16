@@ -1,3 +1,6 @@
+# Install required packages:
+# pip install python-dotenv crewai langchain-community pydantic langfuse openlit
+
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -6,8 +9,18 @@ from langchain_community.tools import DuckDuckGoSearchResults
 from crewai.tools import BaseTool
 from pydantic import Field
 from crewai import LLM
+import base64
+import openlit
 
 print("$$$$$$$$$$$$$ CrewAI Research Crew $$$$$$$$$$$$$")
+
+LANGFUSE_PUBLIC_KEY = os.getenv("LANGFUSE_PUBLIC_KEY")
+LANGFUSE_SECRET_KEY = os.getenv("LANGFUSE_SECRET_KEY")
+LANGFUSE_AUTH=base64.b64encode(f"{LANGFUSE_PUBLIC_KEY}:{LANGFUSE_SECRET_KEY}".encode()).decode()
+#os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "https://cloud.langfuse.com/api/public/otel" # EU data region
+os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "https://us.cloud.langfuse.com/api/public/otel" # US data region
+os.environ["OTEL_EXPORTER_OTLP_HEADERS"] = f"Authorization=Basic {LANGFUSE_AUTH}"
+openlit.init()
 
 # Using Ollama for local inference
 #os.environ["OPENAI_API_KEY"] = "sk-fake-key-for-ollama"
@@ -18,7 +31,7 @@ print("$$$$$$$$$$$$$ CrewAI Research Crew $$$$$$$$$$$$$")
 load_dotenv()
 llm = LLM(
     #model="openrouter/deepseek/deepseek-r1:free",
-    model="openrouter/nvidia/llama-3.1-nemotron-70b-instruct:free",
+    model="openrouter/deepseek/deepseek-chat-v3-0324:free",
     base_url="https://openrouter.ai/api/v1",
 )
 
